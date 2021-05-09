@@ -12,6 +12,7 @@ import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 
 import static com.aslanbaris.pethouse.constants.Constants.USER_BASE_CONTROLLER_PATH;
@@ -28,7 +29,7 @@ public class UserController {
     private final ApplicationEventPublisher eventPublisher;
 
     @PostMapping(value = "/register")
-    public void register(@RequestBody User user, HttpServletRequest request) {
+    public void register(@RequestBody @Valid User user, HttpServletRequest request) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userService.save(user);
 

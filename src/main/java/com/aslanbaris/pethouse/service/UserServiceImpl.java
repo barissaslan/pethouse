@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.aslanbaris.pethouse.constants.Constants.USER_BASE_CONTROLLER_PATH;
@@ -23,12 +24,12 @@ public class UserServiceImpl implements UserService {
     private final VerificationTokenRepository tokenRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Optional<User> user = userRepository.findUserByEmail(email);
+        if (user.isEmpty()) {
+            throw new UsernameNotFoundException(email);
         }
-        return user;
+        return user.get();
     }
 
     @Override

@@ -6,6 +6,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Date;
 
@@ -18,11 +21,20 @@ public class User implements UserDetails {
     @Column(updatable = false, nullable = false)
     private long id;
 
-    private String username;
+    @Email
+    @NotNull
+    @Size(max = 50)
     private String email;
+
+    @NotNull
     private String password;
+
+    @Size(max = 50)
     private String firstName;
+
+    @Size(max = 50)
     private String lastName;
+
     private boolean enabled;
     private boolean isEmailVerified;
 
@@ -33,6 +45,11 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
     }
 
     @Override
