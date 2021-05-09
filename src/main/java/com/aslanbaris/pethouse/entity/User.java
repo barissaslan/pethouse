@@ -14,7 +14,8 @@ import java.util.Date;
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(updatable = false, nullable = false)
     private long id;
 
     private String username;
@@ -23,6 +24,7 @@ public class User implements UserDetails {
     private String firstName;
     private String lastName;
     private boolean enabled;
+    private boolean isEmailVerified;
 
     @Temporal(TemporalType.DATE)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")

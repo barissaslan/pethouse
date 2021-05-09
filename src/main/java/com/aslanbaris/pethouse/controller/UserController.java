@@ -1,6 +1,7 @@
 package com.aslanbaris.pethouse.controller;
 
 import com.aslanbaris.pethouse.entity.User;
+import com.aslanbaris.pethouse.entity.VerificationToken;
 import com.aslanbaris.pethouse.events.OnRegistrationCompleteEvent;
 import com.aslanbaris.pethouse.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -13,9 +14,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.aslanbaris.pethouse.constants.Constants.USER_BASE_CONTROLLER_PATH;
+import static com.aslanbaris.pethouse.constants.Constants.USER_CONFIRMATION_CONTROLLER_PATH;
+
+
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/users")
+@RequestMapping(value = USER_BASE_CONTROLLER_PATH)
 public class UserController {
 
     private final UserService userService;
@@ -27,26 +32,28 @@ public class UserController {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userService.save(user);
 
-        String appUrl = request.getContextPath();
-        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user, request.getLocale(), appUrl));
+        String token = userService.createAndSaveVerificationToken(user);
+        String confirmationUrl = userService.getConfirmationUrl(token);
+
+        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user, request.getLocale(), confirmationUrl));
     }
 
-    @GetMapping(value = "/confirmation")
+    @GetMapping(value = USER_CONFIRMATION_CONTROLLER_PATH)
     public void confirmation(WebRequest request, HttpServletResponse response, @RequestParam("token") String token)
             throws IOException {
-//        Locale locale = request.getLocale();
-//        VerificationToken verificationToken = userService.getVerificationToken(token);
-//        if (verificationToken == null) {
-//            // todo
-//        }
-//        User user = verificationToken.getUser();
-//
-//        // if token not expired
-//
-//        user.setEnabled(true);
-//        userService.save(user);
+        VerificationToken verificationToken = userService.getVerificationToken(token);
 
-        response.sendRedirect("http://localhost:8080/");
+        if (verificationToken == null || verificationToken.isExpired()) {
+            response.sendRedirect("http://localhost:8080/error/baris.html");
+            return;
+        }
+
+        User user = verificationToken.getUser();
+
+        user.setEmailVerified(true);
+        userService.save(user);
+
+        response.sendRedirect("http://localhost:8080/success/baris.html");
 
     }
 }

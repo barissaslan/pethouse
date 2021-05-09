@@ -22,7 +22,6 @@ public class Pet {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date birthDate;
 
-    @Enumerated(EnumType.STRING)
     private PetType petType;
 
     @JsonIgnore

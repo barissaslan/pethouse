@@ -4,24 +4,24 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.Date;
+
+import static com.aslanbaris.pethouse.config.security.SecurityConstants.EMAIL_EXPIRATION_TIME;
 
 @Data
 @Entity
 @NoArgsConstructor
 public class VerificationToken {
 
-    private static final int EXPIRATION = 60 * 24;
-
     public VerificationToken(String token, User user) {
         this.token = token;
         this.user = user;
+        this.expiryDate = new Date(System.currentTimeMillis() + EMAIL_EXPIRATION_TIME);
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(updatable = false, nullable = false)
     private Long id;
 
     @Column(unique = true)
@@ -33,11 +33,8 @@ public class VerificationToken {
 
     private Date expiryDate;
 
-    private Date calculateExpiryDate(int expiryTimeInMinutes) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(new Timestamp(cal.getTime().getTime()));
-        cal.add(Calendar.MINUTE, expiryTimeInMinutes);
-        return new Date(cal.getTime().getTime());
+    public boolean isExpired() {
+        return new Date().after(expiryDate);
     }
 
 }

@@ -8,8 +8,10 @@ public interface UserService extends UserDetailsService {
 
     User save(User user);
 
-    void createVerificationToken(User user, String token);
+    String createAndSaveVerificationToken(User user);
 
     VerificationToken getVerificationToken(String verificationToken);
+
+    String getConfirmationUrl(String token);
 
 }

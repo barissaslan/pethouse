@@ -22,12 +22,6 @@ public class PetController {
 
     @GetMapping(value = "/")
     public ResponseEntity<List<Pet>> getAllPets() {
-        MailRequest request = new MailRequest();
-        request.setMessage("java mess");
-        request.setSubject("deneme titel");
-        request.setRecipients(Arrays.asList("barisa114@gmail.com", "aslannbaris@gmail.com", "baris.aslan@obss.com.tr"));
-
-        boolean result = mailService.sendMail(request);
         List<Pet> petList = petService.findAll();
         return new ResponseEntity<>(petList, HttpStatus.OK);
     }

@@ -8,6 +8,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.util.UUID;
+
+import static com.aslanbaris.pethouse.constants.Constants.USER_BASE_CONTROLLER_PATH;
+import static com.aslanbaris.pethouse.constants.Constants.USER_CONFIRMATION_CONTROLLER_PATH;
 
 @Service
 @RequiredArgsConstructor
@@ -31,14 +37,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public VerificationToken getVerificationToken(String VerificationToken) {
-        return tokenRepository.findByToken(VerificationToken);
+    public VerificationToken getVerificationToken(String verificationToken) {
+        return tokenRepository.findByToken(verificationToken);
     }
 
     @Override
-    public void createVerificationToken(User user, String token) {
-        VerificationToken myToken = new VerificationToken(token, user);
-        tokenRepository.save(myToken);
+    public String createAndSaveVerificationToken(User user) {
+        String token = UUID.randomUUID().toString();
+        VerificationToken verificationToken = new VerificationToken(token, user);
+        tokenRepository.save(verificationToken);
+
+        return token;
+    }
+
+    @Override
+    public String getConfirmationUrl(String token) {
+        final String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+        return String.format("%s/%s/%s?token=%s",
+                baseUrl,
+                USER_BASE_CONTROLLER_PATH,
+                USER_CONFIRMATION_CONTROLLER_PATH,
+                token);
     }
 
 }
