@@ -3,6 +3,7 @@ package com.aslanbaris.pethouse.controller;
 import com.aslanbaris.pethouse.entity.User;
 import com.aslanbaris.pethouse.entity.VerificationToken;
 import com.aslanbaris.pethouse.events.OnRegistrationCompleteEvent;
+import com.aslanbaris.pethouse.exceptions.EmailUserAlreadyExistException;
 import com.aslanbaris.pethouse.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -29,9 +30,10 @@ public class UserController {
     private final ApplicationEventPublisher eventPublisher;
 
     @PostMapping(value = "/register")
-    public void register(@RequestBody @Valid User user, HttpServletRequest request) {
+    public void register(@RequestBody @Valid User user, HttpServletRequest request)
+            throws EmailUserAlreadyExistException {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userService.save(user);
+        userService.createUser(user);
 
         String token = userService.createAndSaveVerificationToken(user);
         String confirmationUrl = userService.getConfirmationUrl(token);

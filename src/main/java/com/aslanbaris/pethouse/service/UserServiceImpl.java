@@ -2,6 +2,7 @@ package com.aslanbaris.pethouse.service;
 
 import com.aslanbaris.pethouse.entity.User;
 import com.aslanbaris.pethouse.entity.VerificationToken;
+import com.aslanbaris.pethouse.exceptions.EmailUserAlreadyExistException;
 import com.aslanbaris.pethouse.repository.UserRepository;
 import com.aslanbaris.pethouse.repository.VerificationTokenRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,15 @@ public class UserServiceImpl implements UserService {
             throw new UsernameNotFoundException(email);
         }
         return user.get();
+    }
+
+    @Override
+    public User createUser(User user) throws EmailUserAlreadyExistException {
+        Optional<User> result = userRepository.findUserByEmail(user.getEmail());
+        if (result.isPresent()) {
+            throw new EmailUserAlreadyExistException();
+        }
+        return userRepository.save(user);
     }
 
     @Override

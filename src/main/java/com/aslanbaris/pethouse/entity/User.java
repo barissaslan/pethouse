@@ -24,6 +24,7 @@ public class User implements UserDetails {
     @Email
     @NotNull
     @Size(max = 50)
+    @Column(unique = true, nullable = false, updatable = false)
     private String email;
 
     @NotNull
