@@ -1,13 +1,12 @@
 package com.aslanbaris.pethouse.api.controller;
 
-import com.aslanbaris.pethouse.dao.entity.EmailVerificationToken;
-import com.aslanbaris.pethouse.dao.entity.User;
 import com.aslanbaris.pethouse.common.events.OnRegistrationCompleteEvent;
 import com.aslanbaris.pethouse.common.exceptions.EmailUserAlreadyExistException;
+import com.aslanbaris.pethouse.dao.entity.EmailVerificationToken;
+import com.aslanbaris.pethouse.dao.entity.User;
 import com.aslanbaris.pethouse.domain.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,13 +24,11 @@ import static com.aslanbaris.pethouse.common.constants.Constants.USER_CONFIRMATI
 public class UserController {
 
     private final UserService userService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ApplicationEventPublisher eventPublisher;
 
     @PostMapping(value = "/register")
     public void register(@RequestBody @Valid User user, HttpServletRequest request)
             throws EmailUserAlreadyExistException {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userService.createUser(user);
 
         String token = userService.createAndSaveVerificationToken(user);
