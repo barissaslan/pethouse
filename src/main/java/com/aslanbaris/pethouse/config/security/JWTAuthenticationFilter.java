@@ -1,6 +1,6 @@
 package com.aslanbaris.pethouse.config.security;
 
-import com.aslanbaris.pethouse.entity.User;
+import com.aslanbaris.pethouse.dao.entity.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

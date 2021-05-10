@@ -1,6 +1,6 @@
 package com.aslanbaris.pethouse.config.security;
 
-import com.aslanbaris.pethouse.entity.User;
+import com.aslanbaris.pethouse.dao.entity.User;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
