@@ -11,9 +11,9 @@ import static com.aslanbaris.pethouse.config.security.SecurityConstants.EMAIL_EX
 @Data
 @Entity
 @NoArgsConstructor
-public class VerificationToken {
+public class EmailVerificationToken {
 
-    public VerificationToken(String token, User user) {
+    public EmailVerificationToken(String token, User user) {
         this.token = token;
         this.user = user;
         this.expiryDate = new Date(System.currentTimeMillis() + EMAIL_EXPIRATION_TIME);

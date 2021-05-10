@@ -1,7 +1,7 @@
 package com.aslanbaris.pethouse.service;
 
 import com.aslanbaris.pethouse.entity.User;
-import com.aslanbaris.pethouse.entity.VerificationToken;
+import com.aslanbaris.pethouse.entity.EmailVerificationToken;
 import com.aslanbaris.pethouse.exceptions.EmailUserAlreadyExistException;
 import com.aslanbaris.pethouse.repository.UserRepository;
 import com.aslanbaris.pethouse.repository.VerificationTokenRepository;
@@ -48,15 +48,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public VerificationToken getVerificationToken(String verificationToken) {
+    public EmailVerificationToken getVerificationToken(String verificationToken) {
         return tokenRepository.findByToken(verificationToken);
     }
 
     @Override
     public String createAndSaveVerificationToken(User user) {
         String token = UUID.randomUUID().toString();
-        VerificationToken verificationToken = new VerificationToken(token, user);
-        tokenRepository.save(verificationToken);
+        EmailVerificationToken emailVerificationToken = new EmailVerificationToken(token, user);
+        tokenRepository.save(emailVerificationToken);
 
         return token;
     }
