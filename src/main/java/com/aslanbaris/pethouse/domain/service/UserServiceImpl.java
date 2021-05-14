@@ -1,8 +1,10 @@
 package com.aslanbaris.pethouse.domain.service;
 
-import com.aslanbaris.pethouse.dao.entity.User;
-import com.aslanbaris.pethouse.dao.entity.EmailVerificationToken;
 import com.aslanbaris.pethouse.common.exceptions.EmailUserAlreadyExistException;
+import com.aslanbaris.pethouse.common.exceptions.InvalidEmailException;
+import com.aslanbaris.pethouse.common.utils.Utils;
+import com.aslanbaris.pethouse.dao.entity.EmailVerificationToken;
+import com.aslanbaris.pethouse.dao.entity.User;
 import com.aslanbaris.pethouse.dao.repository.UserRepository;
 import com.aslanbaris.pethouse.dao.repository.VerificationTokenRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,14 +38,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createUser(User user) throws EmailUserAlreadyExistException {
-        Optional<User> result = userRepository.findUserByEmail(user.getEmail());
-        if (result.isPresent()) {
+    public User createUser(String email, String password) throws EmailUserAlreadyExistException, InvalidEmailException {
+        if (!Utils.isValidEmailAddress(email)) {
+            throw new InvalidEmailException(email);
+        }
+
+        Optional<User> user = userRepository.findUserByEmail(email);
+        if (user.isPresent()) {
             throw new EmailUserAlreadyExistException();
         }
 
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+        User newUser = new User();
+        newUser.setEmail(email);
+        newUser.setPassword(bCryptPasswordEncoder.encode(password));
+        return userRepository.save(newUser);
     }
 
     @Override

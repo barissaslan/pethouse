@@ -1,7 +1,7 @@
 package com.aslanbaris.pethouse.dao.repository;
 
-import com.aslanbaris.pethouse.dao.entity.User;
 import com.aslanbaris.pethouse.dao.entity.EmailVerificationToken;
+import com.aslanbaris.pethouse.dao.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface VerificationTokenRepository extends JpaRepository<EmailVerificationToken, Long> {

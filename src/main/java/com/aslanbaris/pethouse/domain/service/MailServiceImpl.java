@@ -1,11 +1,11 @@
 package com.aslanbaris.pethouse.domain.service;
 
 import com.aslanbaris.pethouse.domain.model.MailRequest;
-import com.mashape.unirest.http.Unirest;
+import com.aslanbaris.pethouse.domain.wrapper.HttpRequestWrapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -14,7 +14,10 @@ import static com.aslanbaris.pethouse.common.constants.Constants.*;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class MailServiceImpl implements MailService {
+
+    private final HttpRequestWrapper httpRequestWrapper;
 
     @Override
     public boolean sendMail(MailRequest mailRequest) {
@@ -22,10 +25,10 @@ public class MailServiceImpl implements MailService {
             Map<String, Object> fields = prepareMailContents(mailRequest);
 
             try {
-                Unirest.post(MAIL_API_URL).basicAuth("api", MAIL_API_KEY).fields(fields).asJson();
+                httpRequestWrapper.post(MAIL_API_URL, "api", MAIL_API_KEY, fields);
                 return true;
             } catch (Exception e) {
-                log.error("Send Mail Error: " + Arrays.toString(e.getStackTrace()));
+                log.error("Send Mail Error: " + e.getMessage());
             }
         }
 

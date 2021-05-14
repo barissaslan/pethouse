@@ -1,7 +1,9 @@
 package com.aslanbaris.pethouse.api.controller;
 
+import com.aslanbaris.pethouse.api.request.RegisterRequest;
 import com.aslanbaris.pethouse.common.events.OnRegistrationCompleteEvent;
 import com.aslanbaris.pethouse.common.exceptions.EmailUserAlreadyExistException;
+import com.aslanbaris.pethouse.common.exceptions.InvalidEmailException;
 import com.aslanbaris.pethouse.dao.entity.EmailVerificationToken;
 import com.aslanbaris.pethouse.dao.entity.User;
 import com.aslanbaris.pethouse.domain.service.UserService;
@@ -27,14 +29,14 @@ public class UserController {
     private final ApplicationEventPublisher eventPublisher;
 
     @PostMapping(value = "/register")
-    public void register(@RequestBody @Valid User user, HttpServletRequest request)
-            throws EmailUserAlreadyExistException {
-        userService.createUser(user);
+    public void register(@RequestBody @Valid RegisterRequest registerRequest, HttpServletRequest httpRequest)
+            throws EmailUserAlreadyExistException, InvalidEmailException {
+        User user = userService.createUser(registerRequest.getEmail(), registerRequest.getPassword());
 
         String token = userService.createAndSaveVerificationToken(user);
         String confirmationUrl = userService.getConfirmationUrl(token);
 
-        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user, request.getLocale(), confirmationUrl));
+        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user, httpRequest.getLocale(), confirmationUrl));
     }
 
     @GetMapping(value = USER_CONFIRMATION_CONTROLLER_PATH)

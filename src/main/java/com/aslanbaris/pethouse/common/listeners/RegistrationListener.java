@@ -1,9 +1,9 @@
 package com.aslanbaris.pethouse.common.listeners;
 
-import com.aslanbaris.pethouse.dao.entity.User;
 import com.aslanbaris.pethouse.common.events.OnRegistrationCompleteEvent;
-import com.aslanbaris.pethouse.domain.model.MailRequest;
 import com.aslanbaris.pethouse.common.properties.UserProperties;
+import com.aslanbaris.pethouse.dao.entity.User;
+import com.aslanbaris.pethouse.domain.model.MailRequest;
 import com.aslanbaris.pethouse.domain.service.MailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
