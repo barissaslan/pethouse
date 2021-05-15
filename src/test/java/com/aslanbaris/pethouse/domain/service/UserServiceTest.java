@@ -1,5 +1,6 @@
 package com.aslanbaris.pethouse.domain.service;
 
+import com.aslanbaris.pethouse.common.events.OnRegistrationCompleteEvent;
 import com.aslanbaris.pethouse.common.exceptions.EmailUserAlreadyExistException;
 import com.aslanbaris.pethouse.common.exceptions.InvalidEmailException;
 import com.aslanbaris.pethouse.dao.entity.EmailVerificationToken;
@@ -12,6 +13,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,8 +24,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
-import static com.aslanbaris.pethouse.TestHelper.getDummyUser;
-import static com.aslanbaris.pethouse.TestHelper.getDummyVerificationToken;
+import static com.aslanbaris.pethouse.TestHelper.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -42,6 +43,9 @@ class UserServiceTest {
 
     @Mock
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Mock
+    private ApplicationEventPublisher eventPublisher;
 
     @Test
     void loadUserByUsernameShouldReturnUser() {
@@ -111,13 +115,45 @@ class UserServiceTest {
     }
 
     @Test
-    void getVerificationTokenShouldReturnToken() {
-        when(tokenRepository.findByToken(anyString())).thenReturn(getDummyVerificationToken());
+    void isVerificationTokenAvailableShouldReturnTrue() {
+        when(tokenRepository.findByToken(anyString())).thenReturn(getDummyNotVerifiedToken());
 
-        EmailVerificationToken result = userService.getVerificationToken("t");
+        boolean result = userService.isVerificationTokenAvailable("token");
 
         verify(tokenRepository).findByToken(anyString());
-        assertEquals("token", result.getToken());
+        assertTrue(result);
+    }
+
+    @Test
+    void isVerificationTokenAvailableShouldReturnFalse() {
+        when(tokenRepository.findByToken(anyString())).thenReturn(getDummyVerifiedToken());
+
+        boolean result = userService.isVerificationTokenAvailable("token");
+
+        verify(tokenRepository).findByToken(anyString());
+        assertFalse(result);
+    }
+
+    @Test
+    void verifyEmailShouldUpdateVerificationFlag() {
+        when(tokenRepository.findByToken(anyString())).thenReturn(getDummyNotVerifiedToken());
+
+        userService.verifyEmail("token");
+
+        ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+        verify(userRepository).save(userCaptor.capture());
+        verifyNoMoreInteractions(userRepository);
+
+        assertTrue(userCaptor.getValue().isEmailVerified());
+    }
+
+    @Test
+    void verifyEmailShouldNotUpdateVerificationFlag() {
+        when(tokenRepository.findByToken(anyString())).thenReturn(null);
+
+        userService.verifyEmail("token");
+
+        verifyNoMoreInteractions(userRepository);
     }
 
     @Test
@@ -129,14 +165,14 @@ class UserServiceTest {
     }
 
     @Test
-    void getConfirmationUrlShouldReturnUrl() {
+    void publishRegistrationCompleteEventShouldSuccess() {
         HttpServletRequest mockRequest = new MockHttpServletRequest();
         ServletRequestAttributes servletRequestAttributes = new ServletRequestAttributes(mockRequest);
         RequestContextHolder.setRequestAttributes(servletRequestAttributes);
 
-        String result = userService.getConfirmationUrl("token");
+        userService.publishRegistrationCompleteEvent(getDummyUser(), "token");
 
-        assertTrue(result.contains("token"));
+        verify(eventPublisher).publishEvent(any(OnRegistrationCompleteEvent.class));
     }
 
 }

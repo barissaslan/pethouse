@@ -3,10 +3,12 @@ package com.aslanbaris.pethouse.domain.service;
 import com.aslanbaris.pethouse.dao.entity.Pet;
 import com.aslanbaris.pethouse.dao.entity.User;
 import com.aslanbaris.pethouse.dao.repository.PetRepository;
+import com.aslanbaris.pethouse.domain.model.PetType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,9 +29,20 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public Pet save(Pet pet) {
+    public Pet add(String name, PetType type, Date birthDate) {
+        Pet pet = new Pet();
+        pet.setName(name);
+        pet.setPetType(type);
+        pet.setBirthDate(birthDate);
+
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         pet.setUser(user);
+
+        return petRepository.save(pet);
+    }
+
+    @Override
+    public Pet save(Pet pet) {
         return petRepository.save(pet);
     }
 

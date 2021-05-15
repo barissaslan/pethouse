@@ -2,8 +2,10 @@ package com.aslanbaris.pethouse.domain.service;
 
 import com.aslanbaris.pethouse.dao.entity.Pet;
 import com.aslanbaris.pethouse.dao.repository.PetRepository;
+import com.aslanbaris.pethouse.domain.model.PetType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -11,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,12 +57,25 @@ class PetServiceTest {
     }
 
     @Test
-    void saveShouldReturnPet() {
+    void addShouldReturnPet() {
         Authentication authentication = mock(Authentication.class);
         SecurityContext securityContext = mock(SecurityContext.class);
         when(securityContext.getAuthentication()).thenReturn(authentication);
         SecurityContextHolder.setContext(securityContext);
 
+        petService.add("pet5", PetType.BIRD, new Date());
+
+        ArgumentCaptor<Pet> petCaptor = ArgumentCaptor.forClass(Pet.class);
+        verify(petRepository).save(petCaptor.capture());
+        verifyNoMoreInteractions(petRepository);
+
+        verify(petRepository).save(any(Pet.class));
+        assertEquals("pet5", petCaptor.getValue().getName());
+        assertEquals(PetType.BIRD, petCaptor.getValue().getPetType());
+    }
+
+    @Test
+    void saveShouldReturnPet() {
         when(petRepository.save(any(Pet.class))).thenReturn(getDummyPet());
 
         final Pet pet = petService.save(getDummyPet());

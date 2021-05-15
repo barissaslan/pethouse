@@ -1,15 +1,28 @@
 package com.aslanbaris.pethouse;
 
+import com.aslanbaris.pethouse.api.request.AddPetRequest;
+import com.aslanbaris.pethouse.api.request.RegisterRequest;
 import com.aslanbaris.pethouse.dao.entity.EmailVerificationToken;
 import com.aslanbaris.pethouse.dao.entity.Pet;
 import com.aslanbaris.pethouse.dao.entity.User;
 import com.aslanbaris.pethouse.domain.model.MailRequest;
+import com.aslanbaris.pethouse.domain.model.PetType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 public final class TestHelper {
+
+    public static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
 
     public static User getDummyUser() {
         User user = new User();
@@ -22,11 +35,33 @@ public final class TestHelper {
         return user;
     }
 
-    public static EmailVerificationToken getDummyVerificationToken() {
+    public static EmailVerificationToken getDummyVerifiedToken() {
         EmailVerificationToken token = new EmailVerificationToken();
 
         token.setToken("token");
         token.setExpiryDate(new Date());
+
+        User user = new User();
+        user.setEmail("test@barisaslan.com");
+        user.setEmailVerified(true);
+        token.setUser(user);
+
+        return token;
+    }
+
+    public static EmailVerificationToken getDummyNotVerifiedToken() {
+        EmailVerificationToken token = new EmailVerificationToken();
+
+        token.setToken("token");
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2100, Calendar.JANUARY, Calendar.MONDAY);
+        token.setExpiryDate(calendar.getTime());
+
+        User user = new User();
+        user.setEmail("test@barisaslan.com");
+        user.setEmailVerified(false);
+        token.setUser(user);
 
         return token;
     }
@@ -54,6 +89,21 @@ public final class TestHelper {
         Pet p1 = new Pet();
         p1.setName("pet1");
         return p1;
+    }
+
+    public static RegisterRequest getDummyRegisterRequest() {
+        RegisterRequest request = new RegisterRequest();
+        request.setEmail("test@barisaslan.com");
+        request.setPassword("password");
+        return request;
+    }
+
+    public static AddPetRequest getDummyAddPetRequest() {
+        AddPetRequest request = new AddPetRequest();
+        request.setPetName("pet1");
+        request.setPetType(PetType.BIRD);
+        request.setPetBirthDate(new Date());
+        return request;
     }
 
 }
