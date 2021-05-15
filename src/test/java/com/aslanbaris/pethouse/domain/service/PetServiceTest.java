@@ -2,9 +2,9 @@ package com.aslanbaris.pethouse.domain.service;
 
 import com.aslanbaris.pethouse.dao.entity.Pet;
 import com.aslanbaris.pethouse.dao.repository.PetRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.Authentication;
@@ -25,15 +25,11 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class PetServiceTest {
 
+    @InjectMocks
+    private PetServiceImpl petService;
+
     @Mock
     private PetRepository petRepository;
-
-    private PetService petService;
-
-    @BeforeEach
-    void setup() {
-        petService = new PetServiceImpl(petRepository);
-    }
 
     @Test
     void findAllShouldReturnPets() {

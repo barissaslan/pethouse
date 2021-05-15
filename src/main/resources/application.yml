@@ -7,3 +7,9 @@ spring:
     url: jdbc:mysql://localhost:3306/pethouse
     username: root
     password: test
+pethouse:
+  mail-sender:
+      api-url: https://api.eu.mailgun.net/v3/barisaslan.com/messages
+      api-username: api
+      api-key: 0d48a25424eeea1f1304a560586a5506-4b1aa784-3fd821ee
+      mail-sender: Barış Aslan <admin@barisaslan.com>

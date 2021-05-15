@@ -1,7 +1,7 @@
 package com.aslanbaris.pethouse.common.listeners;
 
 import com.aslanbaris.pethouse.common.events.OnRegistrationCompleteEvent;
-import com.aslanbaris.pethouse.common.properties.UserProperties;
+import com.aslanbaris.pethouse.common.properties.UserMessageProperties;
 import com.aslanbaris.pethouse.dao.entity.User;
 import com.aslanbaris.pethouse.domain.model.MailRequest;
 import com.aslanbaris.pethouse.domain.service.MailService;
@@ -18,7 +18,7 @@ import java.util.Arrays;
 public class RegistrationListener implements ApplicationListener<OnRegistrationCompleteEvent> {
 
     private final MailService mailService;
-    private final UserProperties userProperties;
+    private final UserMessageProperties userMessageProperties;
 
     @Override
     public void onApplicationEvent(OnRegistrationCompleteEvent event) {
@@ -28,7 +28,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 
     private void confirmRegistration(OnRegistrationCompleteEvent event) {
         User user = event.getUser();
-        String message = userProperties.getConfirmMessage();
+        String message = userMessageProperties.getConfirmMessage();
 
         MailRequest mailRequest = new MailRequest();
         mailRequest.setRecipients(Arrays.asList(user.getEmail()));

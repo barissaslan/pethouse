@@ -1,5 +1,6 @@
 package com.aslanbaris.pethouse.domain.service;
 
+import com.aslanbaris.pethouse.common.properties.MailSenderProperties;
 import com.aslanbaris.pethouse.domain.model.MailRequest;
 import com.aslanbaris.pethouse.domain.wrapper.HttpRequestWrapper;
 import lombok.RequiredArgsConstructor;
@@ -10,14 +11,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.aslanbaris.pethouse.common.constants.Constants.*;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class MailServiceImpl implements MailService {
 
     private final HttpRequestWrapper httpRequestWrapper;
+    private final MailSenderProperties sender;
 
     @Override
     public boolean sendMail(MailRequest mailRequest) {
@@ -25,7 +25,7 @@ public class MailServiceImpl implements MailService {
             Map<String, Object> fields = prepareMailContents(mailRequest);
 
             try {
-                httpRequestWrapper.post(MAIL_API_URL, "api", MAIL_API_KEY, fields);
+                httpRequestWrapper.post(sender.getApiUrl(), sender.getApiUsername(), sender.getApiKey(), fields);
                 return true;
             } catch (Exception e) {
                 log.error("Send Mail Error: " + e.getMessage());
@@ -43,7 +43,7 @@ public class MailServiceImpl implements MailService {
         Map<String, Object> fields = new HashMap<>();
         fields.put("subject", mailRequest.getSubject());
         fields.put("text", mailRequest.getMessage());
-        fields.put("from", MAIL_SENDER_ADMIN);
+        fields.put("from", sender.getMailSender());
         fields.put("to", mailRequest.getRecipients().stream()
                 .map(String::valueOf)
                 .collect(Collectors.joining(",")));
