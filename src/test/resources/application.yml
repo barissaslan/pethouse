@@ -1,0 +1,12 @@
+spring:
+  jpa:
+    database: h2
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+pethouse:
+  mail-sender:
+    api-url: https://api.eu.mailgun.net/v3/barisaslan.com/messages
+    api-username: api
+    api-key: 0d48a25424eeea1f1304a560586a5506-4b1aa784-3fd821ee
+    mail-sender: Barış Aslan <admin@barisaslan.com>

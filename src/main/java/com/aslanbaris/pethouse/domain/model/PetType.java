@@ -14,17 +14,6 @@ public enum PetType {
         this.type = type;
     }
 
-    public static PetType parse(int id) {
-        PetType pet = null;
-        for (PetType item : PetType.values()) {
-            if (item.getId() == id) {
-                pet = item;
-                break;
-            }
-        }
-        return pet;
-    }
-
     public int getId() {
         return id;
     }
