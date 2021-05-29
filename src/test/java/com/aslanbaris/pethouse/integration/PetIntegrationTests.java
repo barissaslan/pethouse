@@ -48,6 +48,7 @@ class PetIntegrationTests {
     @BeforeEach
     void setup() {
         this.mvc = MockMvcBuilders.standaloneSetup(petController).build();
+        petRepository.deleteAll();
     }
 
     @Test
