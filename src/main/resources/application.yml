@@ -3,13 +3,14 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL8Dialect
   datasource:
     url: jdbc:mysql://localhost:3306/pethouse
     username: root
     password: test
 pethouse:
   mail-sender:
-      api-url: https://api.eu.mailgun.net/v3/barisaslan.com/messages
-      api-username: api
-      api-key: 0d48a25424eeea1f1304a560586a5506-4b1aa784-3fd821ee
-      mail-sender: Barış Aslan <admin@barisaslan.com>
+    api-url: https://api.eu.mailgun.net/v3/barisaslan.com/messages
+    api-username: api
+    api-key: key-1d6a6fd0f70e738395e75dfd85aa4765
+    mail-sender: Barış Aslan <admin@barisaslan.com>

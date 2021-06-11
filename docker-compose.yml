@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  mysql-service:
+    image: mysql:8
+    container_name: mysql-db
+    restart: always
+    networks:
+      - spring-boot-mysql-network
+    environment:
+      - MYSQL_ROOT_PASSWORD=test
+      - MYSQL_DATABASE=pethouse
+    volumes:
+      - mysql-datavolume:/var/lib/mysql
+    ports:
+      - 8082:3306
+  pethouse-service:
+    image: pethouse-service
+    container_name: pethouse-service-app
+    restart: always
+    networks:
+      - spring-boot-mysql-network
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8081:8080
+    depends_on:
+      - mysql-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/pethouse?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: test
+volumes:
+  mysql-datavolume:
+
+networks:
+  spring-boot-mysql-network:
+    driver: bridge
