@@ -15,8 +15,8 @@ services:
     ports:
       - 8082:3306
   pethouse-service:
-    image: pethouse-service
-    container_name: pethouse-service-app
+    image: barisaslan/pethouse-service
+    container_name: pethouse-service
     restart: always
     networks:
       - spring-boot-mysql-network
