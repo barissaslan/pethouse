@@ -32,5 +32,9 @@ build/
 ### VS Code ###
 .vscode/
 
+### Gradle ###
+.gradle/
+
+### PetHouse ###
 logs/
 .log
