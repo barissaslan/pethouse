@@ -4,7 +4,6 @@ def to = emailextrecipients([
           [$class: 'RequesterRecipientProvider']
   ])
 
-def subject = "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} ${currentBuild.result}"
 def content = '${JELLY_SCRIPT,template="html"}'
 
 pipeline {
@@ -41,9 +40,12 @@ pipeline {
     post {
         failure {
             echo 'Sending email...'
-            emailext(body: content, mimeType: 'text/html',
-                replyTo: '$DEFAULT_REPLYTO', subject: subject,
-                to: to, attachLog: true )
+            emailext(body: content,
+                mimeType: 'text/html',
+                replyTo: '$DEFAULT_REPLYTO',
+                subject: "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} ${currentBuild.result}",
+                to: to,
+                attachLog: true )
         }
     }
 }
