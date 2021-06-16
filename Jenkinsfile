@@ -29,10 +29,9 @@ pipeline {
         }
     }
 
-}
-
-post {
-    failure {
-        echo "FAIL TEST"
+    post {
+        failure {
+            echo 'I failed :('
+        }
     }
 }
