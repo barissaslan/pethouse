@@ -1,14 +1,14 @@
+def to = emailextrecipients([
+          [$class: 'CulpritsRecipientProvider'],
+          [$class: 'DevelopersRecipientProvider'],
+          [$class: 'RequesterRecipientProvider']
+  ])
+
+def subject = "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} ${currentBuild.result}"
+def content = '${JELLY_SCRIPT,template="html"}'
+
 pipeline {
     agent any
-
-    def to = emailextrecipients([
-              [$class: 'CulpritsRecipientProvider'],
-              [$class: 'DevelopersRecipientProvider'],
-              [$class: 'RequesterRecipientProvider']
-      ])
-
-    def subject = "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} ${currentBuild.result}"
-    def content = '${JELLY_SCRIPT,template="html"}'
 
     stages {
         stage('Build') {
