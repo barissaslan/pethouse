@@ -32,7 +32,7 @@ public class UserController {
         User user = userService.createUser(registerRequest.getEmail(), registerRequest.getPassword());
         String token = userService.createAndSaveVerificationToken(user);
 
-        log.info("Test");
+        log.info("Test2");
 
         userService.publishRegistrationCompleteEvent(user, token);
 
