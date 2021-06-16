@@ -6,8 +6,8 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '2.4.7'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
-    id 'com.palantir.docker' version '0.22.1'
-    id 'com.palantir.docker-run' version '0.22.1'
+    id 'com.palantir.docker' version '0.26.0'
+    id 'com.palantir.docker-run' version '0.26.0'
 }
 
 repositories {
@@ -51,14 +51,17 @@ test {
     useJUnitPlatform()
 }
 
+String imageName = "barisaslan/${project.name}:${project.version}"
+
 docker {
-    name "${project.name}:${project.version}"
-    files 'pethouse.jar'
+    name imageName
+    files "build/libs/${bootJar.archiveFileName.get()}"
+    buildArgs([JAR_FILE: bootJar.archiveFileName.get()])
 }
 
 dockerRun {
-    name "${project.name}"
-    image "${project.name}:${project.version}"
+    name project.name
+    image imageName
     ports '8080:8080'
 }
 
