@@ -41,7 +41,7 @@ pipeline {
 
         stage('Deploy Docker Image') {
             steps {
-                sh 'docker-compose --context barisaslan up -d'
+                sh 'docker --context barisaslan compose up -d'
             }
         }
     }
