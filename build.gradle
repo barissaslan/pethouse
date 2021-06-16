@@ -19,7 +19,7 @@ group = 'com.aslanbaris'
 version = '1.0.0'
 description = 'pethouse'
 
-def javaVersion = JavaVersion.VERSION_1_8;
+def javaVersion = JavaVersion.VERSION_11;
 java.sourceCompatibility = javaVersion;
 java.targetCompatibility = javaVersion;
 
