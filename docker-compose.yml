@@ -23,6 +23,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        - JAR_FILE=build/libs/pethouse-1.0.0.jar
     ports:
       - 8081:8080
     depends_on:
