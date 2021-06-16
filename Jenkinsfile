@@ -1,6 +1,15 @@
 pipeline {
     agent any
 
+    def to = emailextrecipients([
+              [$class: 'CulpritsRecipientProvider'],
+              [$class: 'DevelopersRecipientProvider'],
+              [$class: 'RequesterRecipientProvider']
+      ])
+
+    def subject = "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} ${currentBuild.result}"
+    def content = '${JELLY_SCRIPT,template="html"}'
+
     stages {
         stage('Build') {
             steps {
@@ -32,14 +41,7 @@ pipeline {
     post {
         failure {
             echo 'Sending email...'
-            def to = emailextrecipients([
-                      [$class: 'CulpritsRecipientProvider'],
-                      [$class: 'DevelopersRecipientProvider'],
-                      [$class: 'RequesterRecipientProvider']
-              ])
 
-            def subject = "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} ${currentBuild.result}"
-            def content = '${JELLY_SCRIPT,template="html"}'
 
               // send email
             if (to != null && !to.isEmpty()) {
