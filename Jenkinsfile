@@ -33,6 +33,6 @@ pipeline {
 
 post {
     failure {
-        exho "FAIL TEST"
+        echo "FAIL TEST"
     }
 }
