@@ -41,7 +41,10 @@ pipeline {
 
         stage('Deploy Docker Image') {
             steps {
-                sh 'docker-compose --context barisaslan up -d'
+                sshagent(credentials : ['ssh.aws.barisaslan']) {
+                    sh "echo pwd"
+                    sh 'docker-compose --context barisaslan up -d'
+                }
             }
         }
     }
