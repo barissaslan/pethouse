@@ -70,7 +70,7 @@ class PetServiceTest {
         verifyNoMoreInteractions(petRepository);
 
         verify(petRepository).save(any(Pet.class));
-        assertEquals("pet51", petCaptor.getValue().getName());
+        assertEquals("pet5", petCaptor.getValue().getName());
         assertEquals(PetType.BIRD, petCaptor.getValue().getPetType());
     }
 
