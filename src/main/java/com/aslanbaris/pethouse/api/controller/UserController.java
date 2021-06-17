@@ -50,4 +50,9 @@ public class UserController {
         response.sendRedirect("http://localhost:8080/success/baris.html");
     }
 
+    @GetMapping(value = "dummy")
+    public String  dummy() {
+        return "dummy";
+    }
+
 }

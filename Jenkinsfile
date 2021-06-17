@@ -44,7 +44,7 @@ pipeline {
                 sshagent(credentials: ['ssh.aws.barisaslan']) {
                     sh '[ -d ~/.ssh ] || mkdir ~/.ssh && chmod 0700 ~/.ssh'
                     sh 'ssh-keyscan -t rsa,dsa 13.51.251.129 >> ~/.ssh/known_hosts'
-                    sh 'docker-compose --context barisaslan up -d'
+                    sh 'scp Jenkinsfile ubuntu@13.51.251.129:/home/ubuntu'
                 }
             }
         }
