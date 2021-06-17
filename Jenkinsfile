@@ -41,11 +41,8 @@ pipeline {
 
         stage('Deploy Docker Image') {
             steps {
-                sshagent(credentials: ['ssh.aws.barisaslan']) {
-                    sh '[ -d ~/.ssh ] || mkdir ~/.ssh && chmod 0700 ~/.ssh'
-                    sh 'ssh-keyscan -t rsa,dsa 13.51.251.129 >> ~/.ssh/known_hosts'
-                    sh 'scp Jenkinsfile ubuntu@13.51.251.129:/home/ubuntu'
-                }
+                sh 'docker-compose pull'
+                sh 'docker-compose up -d --no-build'
             }
         }
     }
