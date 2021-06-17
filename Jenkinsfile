@@ -43,7 +43,7 @@ pipeline {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: "ssh.aws.barisaslan", keyFileVariable: 'keyfile')]) {
                     sh "echo pwd"
-                    sh 'docker-compose --context barisaslan up -d'
+                    sh 'scp Jenkinsfile ubuntu@13.51.251.129:/home/ubuntu'
                 }
             }
         }
