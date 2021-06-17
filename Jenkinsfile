@@ -23,13 +23,13 @@ pipeline {
             }
         }
 
-        stage('Build Docker image') {
+        stage('Build Docker Image') {
             steps {
                 sh './gradlew docker'
             }
         }
 
-        stage('Push Docker image') {
+        stage('Push Docker Image') {
             environment {
                 DOCKER_HUB_LOGIN = credentials('dockerhub.barisaslan')
             }
