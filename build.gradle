@@ -16,7 +16,6 @@ repositories {
     mavenCentral()
 }
 
-scmVersion.repository.customUsername = project.findProperty("GITHUB_TOKEN") ?: null
 group = 'com.aslanbaris'
 version = scmVersion.version
 description = 'pethouse'
