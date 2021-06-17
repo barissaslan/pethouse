@@ -52,7 +52,7 @@ public class UserController {
 
     @GetMapping(value = "dummy")
     public String  dummy() {
-        return "dummy test";
+        return "dummy";
     }
 
 }
