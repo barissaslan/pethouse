@@ -14,9 +14,9 @@ services:
       - mysql-datavolume:/var/lib/mysql
     ports:
       - 8082:3306
-  pethouse-service:
-    image: barisaslan/pethouse-service
-    container_name: pethouse-service
+  pethouse:
+    image: barisaslan/pethouse
+    container_name: pethouse
     restart: always
     networks:
       - spring-boot-mysql-network

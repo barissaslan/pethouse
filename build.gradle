@@ -8,7 +8,6 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'com.palantir.docker' version '0.26.0'
     id 'com.palantir.docker-run' version '0.26.0'
-    id 'pl.allegro.tech.build.axion-release' version '1.13.2'
 }
 
 repositories {
@@ -17,7 +16,6 @@ repositories {
 }
 
 group = 'com.aslanbaris'
-version = scmVersion.version
 description = 'pethouse'
 
 def javaVersion = JavaVersion.VERSION_11;
@@ -52,7 +50,7 @@ test {
     useJUnitPlatform()
 }
 
-String imageName = "barisaslan/${project.name}:${project.version}"
+String imageName = "barisaslan/${project.name}"
 
 docker {
     name imageName
