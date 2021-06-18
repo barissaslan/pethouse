@@ -5,7 +5,7 @@ def to = emailextrecipients([
   ])
 
 def mailContent = '${JELLY_SCRIPT,template="html"}'
-def sonarqubeScannerHome = tool name: 'sonar', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+// def sonarqubeScannerHome = tool name: 'sonar', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
 
 pipeline {
     agent any
