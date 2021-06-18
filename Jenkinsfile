@@ -5,11 +5,9 @@ def to = emailextrecipients([
   ])
 
 def mailContent = '${JELLY_SCRIPT,template="html"}'
-// def sonarqubeScannerHome = tool name: 'sonar', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+def sonarqubeScannerHome = tool name: 'sonar', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
 
-pipeline {
-    agent any
-
+node {
     stages {
         stage('Build') {
             steps {
@@ -47,24 +45,24 @@ pipeline {
             }
         }
 
-//         stage('Sonar Scanner') {
-//             steps {
-//                 withCredentials([string(credentialsId: 'sonarqube.admin', variable: 'sonarLogin')]) {
-//                     sh '${sonarqubeScannerHome}/bin/sonar-scanner -e -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=${sonarLogin} -Dsonar.projectName=pethouse-demo -Dsonar.projectKey=PH -Dsonar.sources=complete/src/main/ -Dsonar.tests=complete/src/test/ -Dsonar.language=java -Dsonar.java.binaries=.'
-//                 }
-//             }
-//         }
-    }
-
-    post {
-        failure {
-            echo 'Sending email...'
-            emailext(body: mailContent,
-                mimeType: 'text/html',
-                replyTo: '$DEFAULT_REPLYTO',
-                subject: "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} ${currentBuild.result}",
-                to: to,
-                attachLog: true )
+        stage('Sonar Scanner') {
+            steps {
+                withCredentials([string(credentialsId: 'sonarqube.admin', variable: 'sonarLogin')]) {
+                    sh '${sonarqubeScannerHome}/bin/sonar-scanner -e -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=${sonarLogin} -Dsonar.projectName=pethouse-demo -Dsonar.projectKey=PH -Dsonar.sources=complete/src/main/ -Dsonar.tests=complete/src/test/ -Dsonar.language=java -Dsonar.java.binaries=.'
+                }
+            }
         }
     }
+
+//     post {
+//         failure {
+//             echo 'Sending email...'
+//             emailext(body: mailContent,
+//                 mimeType: 'text/html',
+//                 replyTo: '$DEFAULT_REPLYTO',
+//                 subject: "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} ${currentBuild.result}",
+//                 to: to,
+//                 attachLog: true )
+//         }
+//     }
 }
