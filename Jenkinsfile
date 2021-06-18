@@ -47,13 +47,13 @@ pipeline {
             }
         }
 
-        stage('Sonar Scanner') {
-            steps {
-                withCredentials([string(credentialsId: 'sonarqube.admin', variable: 'sonarLogin')]) {
-                    sh '${sonarqubeScannerHome}/bin/sonar-scanner -e -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=${sonarLogin} -Dsonar.projectName=pethouse-demo -Dsonar.projectKey=PH -Dsonar.sources=complete/src/main/ -Dsonar.tests=complete/src/test/ -Dsonar.language=java -Dsonar.java.binaries=.'
-                }
-            }
-        }
+//         stage('Sonar Scanner') {
+//             steps {
+//                 withCredentials([string(credentialsId: 'sonarqube.admin', variable: 'sonarLogin')]) {
+//                     sh '${sonarqubeScannerHome}/bin/sonar-scanner -e -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=${sonarLogin} -Dsonar.projectName=pethouse-demo -Dsonar.projectKey=PH -Dsonar.sources=complete/src/main/ -Dsonar.tests=complete/src/test/ -Dsonar.language=java -Dsonar.java.binaries=.'
+//                 }
+//             }
+//         }
     }
 
     post {
