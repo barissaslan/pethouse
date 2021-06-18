@@ -49,8 +49,8 @@ pipeline {
 
         stage('Sonar Scanner') {
             steps {
-                withCredentials([string(credentialsId: 'sonarqube.admin', variable: 'sonarLogin')]) {
-                    sh './gradlew jacocoTestReport sonarqube -Dsonar.host.url=https://sonarqube.barisaslan.com'
+               withSonarQubeEnv() { // Will pick the global server connection you have configured
+                  sh './gradlew sonarqube'
                 }
             }
         }
