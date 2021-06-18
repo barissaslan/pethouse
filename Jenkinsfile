@@ -50,7 +50,7 @@ pipeline {
         stage('Sonar Scanner') {
             steps {
                withSonarQubeEnv('SonarQube') {
-                  sh './gradlew sonarqube'
+                  sh './gradlew jacocoTestReport sonarqube'
                 }
             }
         }
