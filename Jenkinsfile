@@ -8,7 +8,6 @@ def content = '${JELLY_SCRIPT,template="html"}'
 
 pipeline {
     agent any
-    def sonarqubeScannerHome = tool name: 'sonar', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
 
     stages {
         stage('Build') {
@@ -48,9 +47,13 @@ pipeline {
         }
 
         stage('Sonar Scanner') {
-          withCredentials([string(credentialsId: 'sonarqube.admin', variable: 'sonarLogin')]) {
-            sh '${sonarqubeScannerHome}/bin/sonar-scanner -e -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=${sonarLogin} -Dsonar.projectName=pethouse -Dsonar.projectVersion=${env.BUILD_NUMBER} -Dsonar.projectKey=PH -Dsonar.sources=src/main/ -Dsonar.tests=src/test/ -Dsonar.language=java -Dsonar.java.binaries=.'
-          }
+            def sonarqubeScannerHome = tool name: 'sonar', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+
+            steps {
+                withCredentials([string(credentialsId: 'sonarqube.admin', variable: 'sonarLogin')]) {
+                    sh '${sonarqubeScannerHome}/bin/sonar-scanner -e -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=${sonarLogin} -Dsonar.projectName=pethouse -Dsonar.projectVersion=${env.BUILD_NUMBER} -Dsonar.projectKey=PH -Dsonar.sources=src/main/ -Dsonar.tests=src/test/ -Dsonar.language=java -Dsonar.java.binaries=.'
+                }
+            }
         }
     }
 
