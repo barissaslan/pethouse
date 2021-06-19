@@ -73,6 +73,7 @@ tasks.withType(JavaCompile) {
 sonarqube {
     properties {
         property 'sonar.projectName', 'Pethouse'
+        property 'sonar.coverage.exclusions', "**/com/aslanbaris/pethouse/common/Constants*,**/com/aslanbaris/pethouse/config/security/SecurityConstants*"
     }
 }
 
