@@ -44,7 +44,7 @@ class UserControllerTest {
         mvc.perform(post(registerUrl)
                 .content(TestHelper.asJsonString(TestHelper.getDummyRegisterRequest()))
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated()).andReturn();
+                .andExpect(status().isOk()).andReturn();
 
         verify(userService).handleRegistration(any(RegisterRequest.class));
         verifyNoMoreInteractions(userService);

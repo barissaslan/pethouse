@@ -47,7 +47,7 @@ public class UserController {
 
     @GetMapping(value = "dummy")
     public String dummy() {
-        return "dummy";
+        return "dummy update";
     }
 
 }
