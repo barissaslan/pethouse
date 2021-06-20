@@ -1,12 +1,12 @@
-def to = emailextrecipients([
-          [$class: 'CulpritsRecipientProvider'],
-          [$class: 'DevelopersRecipientProvider'],
-          [$class: 'RequesterRecipientProvider']
-  ])
-
-def content = '${JELLY_SCRIPT,template="html"}'
-
 pipeline {
+    def to = emailextrecipients([
+              [$class: 'CulpritsRecipientProvider'],
+              [$class: 'DevelopersRecipientProvider'],
+              [$class: 'RequesterRecipientProvider']
+      ])
+
+    def content = '${JELLY_SCRIPT,template="html"}'
+
     agent any
 
     stages {
