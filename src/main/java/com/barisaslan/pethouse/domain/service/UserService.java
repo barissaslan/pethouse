@@ -1,5 +1,6 @@
 package com.barisaslan.pethouse.domain.service;
 
+import com.barisaslan.pethouse.api.request.RegisterRequest;
 import com.barisaslan.pethouse.common.exceptions.EmailUserAlreadyExistException;
 import com.barisaslan.pethouse.common.exceptions.InvalidEmailException;
 import com.barisaslan.pethouse.dao.entity.User;
@@ -18,5 +19,7 @@ public interface UserService extends UserDetailsService {
     boolean isVerificationTokenAvailable(String verificationToken);
 
     void verifyEmail(String verificationToken);
+
+    void handleRegistration(RegisterRequest registerRequest) throws EmailUserAlreadyExistException, InvalidEmailException;
 
 }

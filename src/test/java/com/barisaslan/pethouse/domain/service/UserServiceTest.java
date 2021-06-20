@@ -1,5 +1,6 @@
 package com.barisaslan.pethouse.domain.service;
 
+import com.barisaslan.pethouse.TestHelper;
 import com.barisaslan.pethouse.common.events.OnRegistrationCompleteEvent;
 import com.barisaslan.pethouse.common.exceptions.EmailUserAlreadyExistException;
 import com.barisaslan.pethouse.common.exceptions.InvalidEmailException;
@@ -7,7 +8,6 @@ import com.barisaslan.pethouse.dao.entity.EmailVerificationToken;
 import com.barisaslan.pethouse.dao.entity.User;
 import com.barisaslan.pethouse.dao.repository.UserRepository;
 import com.barisaslan.pethouse.dao.repository.VerificationTokenRepository;
-import com.barisaslan.pethouse.TestHelper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;

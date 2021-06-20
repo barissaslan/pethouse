@@ -8,5 +8,5 @@ pethouse:
   mail-sender:
     api-url: https://api.eu.mailgun.net/v3/barisaslan.com/messages
     api-username: api
-    api-key: 0d48a25424eeea1f1304a560586a5506-4b1aa784-3fd821ee
-    mail-sender: Barış Aslan <admin@barisaslan.com>
+    api-key: key-1d6a6fd0f70e738395e75dfd85aa4765
+    mail-sender: Test Sender <test@barisaslan.com>

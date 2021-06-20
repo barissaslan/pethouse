@@ -22,7 +22,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 
     @Override
     public void onApplicationEvent(OnRegistrationCompleteEvent event) {
-        log.info("onApplicationEvent");
+        log.debug("onApplicationEvent");
         this.confirmRegistration(event);
     }
 

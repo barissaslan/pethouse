@@ -1,5 +1,6 @@
 package com.barisaslan.pethouse.domain.service;
 
+import com.barisaslan.pethouse.api.request.RegisterRequest;
 import com.barisaslan.pethouse.common.events.OnRegistrationCompleteEvent;
 import com.barisaslan.pethouse.common.exceptions.EmailUserAlreadyExistException;
 import com.barisaslan.pethouse.common.exceptions.InvalidEmailException;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -69,6 +71,14 @@ public class UserServiceImpl implements UserService {
         tokenRepository.save(emailVerificationToken);
 
         return token;
+    }
+
+    @Override
+    @Transactional
+    public void handleRegistration(RegisterRequest registerRequest) throws EmailUserAlreadyExistException, InvalidEmailException {
+        User user = createUser(registerRequest.getEmail(), registerRequest.getPassword());
+        String token = createAndSaveVerificationToken(user);
+        publishRegistrationCompleteEvent(user, token);
     }
 
     @Override

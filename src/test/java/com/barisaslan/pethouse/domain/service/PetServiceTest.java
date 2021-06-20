@@ -1,9 +1,9 @@
 package com.barisaslan.pethouse.domain.service;
 
+import com.barisaslan.pethouse.TestHelper;
 import com.barisaslan.pethouse.dao.entity.Pet;
 import com.barisaslan.pethouse.dao.repository.PetRepository;
 import com.barisaslan.pethouse.domain.model.PetType;
-import com.barisaslan.pethouse.TestHelper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;

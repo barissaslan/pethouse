@@ -75,7 +75,8 @@ sonarqube {
         property 'sonar.projectName', 'Pethouse'
         property 'sonar.coverage.exclusions', "**/com/barisaslan/pethouse/common/constants/*," +
                 "**/com/barisaslan/pethouse/config/**," +
-                "**/com/barisaslan/pethouse/PetHouseApplication.java"
+                "**/com/barisaslan/pethouse/PetHouseApplication.java," +
+                "**/com/barisaslan/pethouse/dao/entity/User.java"
     }
 }
 

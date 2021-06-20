@@ -2,12 +2,12 @@
 <configuration>
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
-    <property name="LOG_PATH" value="./logs" />
+    <property name="LOG_PATH" value="./logs"/>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>
-                %d{ISO8601} %highlight(%-5level) [%-15(%.15t)]  %cyan(%-40(%.-40logger{36})) : %msg%n%throwable
+                %d{ISO8601} %highlight(%-5level) [%-15(%.15t)] %cyan(%-40(%.-40logger{36})) : %msg%n%throwable
             </pattern>
         </encoder>
     </appender>
@@ -15,7 +15,7 @@
     <appender name="FILEOUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_PATH}/pethouse.log</file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <Pattern>%d{ISO8601} %-5level [%-15(%.15t)]  %-40(%.-40logger{36}) : %msg%n%throwable</Pattern>
+            <Pattern>%d{ISO8601} %-5level [%-15(%.15t)] %-40(%.-40logger{36}) : %msg%n%throwable</Pattern>
         </encoder>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">

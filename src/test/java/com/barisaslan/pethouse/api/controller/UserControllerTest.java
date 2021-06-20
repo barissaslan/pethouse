@@ -1,7 +1,7 @@
 package com.barisaslan.pethouse.api.controller;
 
-import com.barisaslan.pethouse.domain.service.UserService;
 import com.barisaslan.pethouse.TestHelper;
+import com.barisaslan.pethouse.domain.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
