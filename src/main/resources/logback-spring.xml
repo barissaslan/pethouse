@@ -31,7 +31,7 @@
             <appender-ref ref="STDOUT"/>
             <appender-ref ref="FILEOUT"/>
         </root>
-        <logger name="com.aslanbaris.pethouse" additivity="false" level="debug">
+        <logger name="com.barisaslan.pethouse" additivity="false" level="debug">
             <appender-ref ref="STDOUT"/>
             <appender-ref ref="FILEOUT"/>
         </logger>
@@ -41,7 +41,7 @@
         <root level="error">
             <appender-ref ref="FILEOUT"/>
         </root>
-        <logger name="com.aslanbaris.pethouse" additivity="false" level="debug">
+        <logger name="com.barisaslan.pethouse" additivity="false" level="debug">
             <appender-ref ref="FILEOUT"/>
         </logger>
     </springProfile>

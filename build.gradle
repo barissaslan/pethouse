@@ -17,7 +17,7 @@ repositories {
     mavenCentral()
 }
 
-group = 'com.aslanbaris'
+group = 'com.barisaslan'
 description = 'pethouse'
 
 def javaVersion = JavaVersion.VERSION_11;
@@ -73,7 +73,9 @@ tasks.withType(JavaCompile) {
 sonarqube {
     properties {
         property 'sonar.projectName', 'Pethouse'
-        property 'sonar.coverage.exclusions', "**/com/aslanbaris/pethouse/common/constants/*,**/com/aslanbaris/pethouse/config/**"
+        property 'sonar.coverage.exclusions', "**/com/barisaslan/pethouse/common/constants/*," +
+                "**/com/barisaslan/pethouse/config/**," +
+                "**/com/barisaslan/pethouse/PetHouseApplication.java"
     }
 }
 
