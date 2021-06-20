@@ -3,7 +3,6 @@ package com.barisaslan.pethouse.domain.service;
 import com.barisaslan.pethouse.TestHelper;
 import com.barisaslan.pethouse.common.events.OnRegistrationCompleteEvent;
 import com.barisaslan.pethouse.common.exceptions.EmailUserAlreadyExistException;
-import com.barisaslan.pethouse.common.exceptions.InvalidEmailException;
 import com.barisaslan.pethouse.dao.entity.EmailVerificationToken;
 import com.barisaslan.pethouse.dao.entity.User;
 import com.barisaslan.pethouse.dao.repository.UserRepository;
@@ -68,7 +67,7 @@ class UserServiceTest {
     }
 
     @Test
-    void createUserShouldReturnUser() throws EmailUserAlreadyExistException, InvalidEmailException {
+    void createUserShouldReturnUser() throws EmailUserAlreadyExistException {
         when(userRepository.findUserByEmail(anyString())).thenReturn(Optional.empty());
         when(bCryptPasswordEncoder.encode(anyString())).thenReturn("encodedPassword");
 
@@ -80,16 +79,6 @@ class UserServiceTest {
 
         assertEquals("test@test.com", userCaptor.getValue().getEmail());
         assertEquals("encodedPassword", userCaptor.getValue().getPassword());
-    }
-
-    @Test
-    void createUserShouldThrowInvalidEmailException() {
-        InvalidEmailException thrown = assertThrows(
-                InvalidEmailException.class,
-                () -> userService.createUser("invalid_email", "password")
-        );
-
-        assertTrue(thrown.getMessage().contains("invalid_email"));
     }
 
     @Test

@@ -3,8 +3,6 @@ package com.barisaslan.pethouse.domain.service;
 import com.barisaslan.pethouse.api.request.RegisterRequest;
 import com.barisaslan.pethouse.common.events.OnRegistrationCompleteEvent;
 import com.barisaslan.pethouse.common.exceptions.EmailUserAlreadyExistException;
-import com.barisaslan.pethouse.common.exceptions.InvalidEmailException;
-import com.barisaslan.pethouse.common.utils.Utils;
 import com.barisaslan.pethouse.dao.entity.EmailVerificationToken;
 import com.barisaslan.pethouse.dao.entity.User;
 import com.barisaslan.pethouse.dao.repository.UserRepository;
@@ -43,11 +41,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createUser(String email, String password) throws EmailUserAlreadyExistException, InvalidEmailException {
-        if (!Utils.isValidEmailAddress(email)) {
-            throw new InvalidEmailException(email);
-        }
-
+    public User createUser(String email, String password) throws EmailUserAlreadyExistException {
         Optional<User> user = userRepository.findUserByEmail(email);
         if (user.isPresent()) {
             throw new EmailUserAlreadyExistException();
@@ -75,7 +69,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void handleRegistration(RegisterRequest registerRequest) throws EmailUserAlreadyExistException, InvalidEmailException {
+    public void handleRegistration(RegisterRequest registerRequest) throws EmailUserAlreadyExistException {
         User user = createUser(registerRequest.getEmail(), registerRequest.getPassword());
         String token = createAndSaveVerificationToken(user);
         publishRegistrationCompleteEvent(user, token);

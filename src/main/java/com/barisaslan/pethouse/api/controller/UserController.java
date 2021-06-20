@@ -2,7 +2,6 @@ package com.barisaslan.pethouse.api.controller;
 
 import com.barisaslan.pethouse.api.request.RegisterRequest;
 import com.barisaslan.pethouse.common.exceptions.EmailUserAlreadyExistException;
-import com.barisaslan.pethouse.common.exceptions.InvalidEmailException;
 import com.barisaslan.pethouse.domain.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +26,7 @@ public class UserController {
 
     @PostMapping(value = USER_CONTROLLER_REGISTER_PATH)
     public ResponseEntity<Void> register(@RequestBody @Valid RegisterRequest registerRequest)
-            throws EmailUserAlreadyExistException, InvalidEmailException {
+            throws EmailUserAlreadyExistException {
 
         userService.handleRegistration(registerRequest);
 
@@ -43,11 +42,6 @@ public class UserController {
 
         userService.verifyEmail(token);
         response.sendRedirect("http://localhost:8080/success/baris.html");
-    }
-
-    @GetMapping(value = "dummy")
-    public String dummy() {
-        return "dummy update";
     }
 
 }
