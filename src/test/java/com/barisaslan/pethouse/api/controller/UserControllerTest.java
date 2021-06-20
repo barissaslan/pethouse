@@ -1,6 +1,7 @@
 package com.barisaslan.pethouse.api.controller;
 
 import com.barisaslan.pethouse.TestHelper;
+import com.barisaslan.pethouse.api.request.RegisterRequest;
 import com.barisaslan.pethouse.domain.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,9 +46,7 @@ class UserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated()).andReturn();
 
-        verify(userService).createUser(anyString(), anyString());
-        verify(userService).createAndSaveVerificationToken(any());
-        verify(userService).publishRegistrationCompleteEvent(any(), any());
+        verify(userService).handleRegistration(any(RegisterRequest.class));
         verifyNoMoreInteractions(userService);
     }
 
