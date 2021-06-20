@@ -30,7 +30,7 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public Pet add(String name, PetType type, Date birthDate) {
-        Pet pet = new Pet();
+        var pet = new Pet();
         pet.setName(name);
         pet.setPetType(type);
         pet.setBirthDate(birthDate);

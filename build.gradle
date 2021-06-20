@@ -77,6 +77,10 @@ sonarqube {
                 "**/com/barisaslan/pethouse/config/**," +
                 "**/com/barisaslan/pethouse/PetHouseApplication.java," +
                 "**/com/barisaslan/pethouse/dao/entity/User.java"
+
+        property "sonar.issue.ignore.multicriteria", "S6212"
+        property "sonar.issue.ignore.multicriteria.S6212.ruleKey", "java:S6212"
+        property "sonar.issue.ignore.multicriteria.S6212.resourceKey", "**/com/barisaslan/pethouse/**"
     }
 }
 

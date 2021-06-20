@@ -1,10 +1,13 @@
 package com.barisaslan.pethouse.config.security;
 
+import com.barisaslan.pethouse.common.exceptions.UserAuthenticationException;
 import com.barisaslan.pethouse.dao.entity.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,12 +23,14 @@ import java.util.Date;
 
 import static com.barisaslan.pethouse.config.security.SecurityConstants.*;
 
+@Slf4j
 @RequiredArgsConstructor
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
 
     @Override
+    @SneakyThrows
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
         try {
@@ -38,7 +43,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                             new ArrayList<>())
             );
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            log.error("attemptAuthentication: " + e.getMessage());
+            throw new UserAuthenticationException();
         }
     }
 

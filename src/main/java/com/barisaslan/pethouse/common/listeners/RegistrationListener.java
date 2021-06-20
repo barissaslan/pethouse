@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 @Slf4j
 @Component
@@ -30,8 +30,8 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
         User user = event.getUser();
         String message = userMessageProperties.getConfirmMessage();
 
-        MailRequest mailRequest = new MailRequest();
-        mailRequest.setRecipients(Arrays.asList(user.getEmail()));
+        var mailRequest = new MailRequest();
+        mailRequest.setRecipients(Collections.singletonList(user.getEmail()));
         mailRequest.setSubject("Email Confirmation");
         mailRequest.setMessage(message + "\n" + event.getConfirmationUrl());
 

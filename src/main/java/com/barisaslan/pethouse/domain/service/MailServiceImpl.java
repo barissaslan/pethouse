@@ -36,7 +36,7 @@ public class MailServiceImpl implements MailService {
     }
 
     private boolean checkMailRequest(MailRequest mailRequest) {
-        return mailRequest != null && mailRequest.getRecipients() != null && mailRequest.getRecipients().size() > 0;
+        return mailRequest != null && mailRequest.getRecipients() != null && mailRequest.getRecipients().isEmpty();
     }
 
     private Map<String, Object> prepareMailContents(MailRequest mailRequest) {

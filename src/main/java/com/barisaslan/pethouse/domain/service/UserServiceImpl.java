@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
             throw new EmailUserAlreadyExistException();
         }
 
-        User newUser = new User();
+        var newUser = new User();
         newUser.setEmail(email);
         newUser.setPassword(bCryptPasswordEncoder.encode(password));
         return userRepository.save(newUser);
