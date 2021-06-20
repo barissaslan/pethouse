@@ -1,7 +1,6 @@
 package com.barisaslan.pethouse.domain.service;
 
 import com.barisaslan.pethouse.common.exceptions.HttpRequestFailException;
-import com.barisaslan.pethouse.common.properties.MailSenderProperties;
 import com.barisaslan.pethouse.domain.wrapper.HttpRequestWrapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,9 +21,6 @@ class MailServiceTest {
 
     @Mock
     private HttpRequestWrapper httpRequestWrapper;
-
-    @Mock
-    private MailSenderProperties sender;
 
     @Test
     void sendMailShouldReturnTrue() throws HttpRequestFailException {
