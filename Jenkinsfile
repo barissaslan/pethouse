@@ -1,12 +1,4 @@
 pipeline {
-    def to = emailextrecipients([
-              [$class: 'CulpritsRecipientProvider'],
-              [$class: 'DevelopersRecipientProvider'],
-              [$class: 'RequesterRecipientProvider']
-      ])
-
-    def content = '${JELLY_SCRIPT,template="html"}'
-
     agent any
 
     stages {
@@ -59,12 +51,23 @@ pipeline {
     post {
         failure {
             echo 'Sending email...'
-            emailext(body: content,
-                mimeType: 'text/html',
-                replyTo: '$DEFAULT_REPLYTO',
-                subject: "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} ${currentBuild.result}",
-                to: to,
-                attachLog: true )
+            script {
+                def to = emailextrecipients([
+                          [$class: 'CulpritsRecipientProvider'],
+                          [$class: 'DevelopersRecipientProvider'],
+                          [$class: 'RequesterRecipientProvider']
+                  ])
+
+                def content = '${JELLY_SCRIPT,template="html"}'
+
+                emailext(body: content,
+                            mimeType: 'text/html',
+                            replyTo: '$DEFAULT_REPLYTO',
+                            subject: "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} ${currentBuild.result}",
+                            to: to,
+                            attachLog: true )
+            }
+
         }
     }
 }
