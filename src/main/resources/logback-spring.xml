@@ -14,9 +14,7 @@
 
     <appender name="FILEOUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_PATH}/pethouse.log</file>
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <Pattern>%d{ISO8601} %-5level [%-15(%.15t)] %-40(%.-40logger{36}) : %msg%n%throwable</Pattern>
-        </encoder>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${LOG_PATH}/archive/spring-boot-logging-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
