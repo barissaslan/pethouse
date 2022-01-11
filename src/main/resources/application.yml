@@ -10,7 +10,7 @@ spring:
     password: test
 pethouse:
   mail-sender:
-    api-url: https://api.eu.mailgun.net/v3/barisaslan.com/messages
+    api-url: -
     api-username: api
-    api-key: key-1d6a6fd0f70e738395e75dfd85aa4765
+    api-key: -
     mail-sender: Barış Aslan <admin@barisaslan.com>
